@@ -1,0 +1,364 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+
+
+
+
+#backImg{
+    width: 100%;
+    position: static;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    background-color: transparent !important;
+    padding: 0px 20px;
+}
+
+body {
+  padding: 0;
+    margin: 0;
+    font-family: "Poppins", sans-serif; 
+    
+    
+    background-image: url("photo-1533473359331-0135ef1b58bf.png");
+    background-size: cover;          
+    background-position: center;    
+    background-repeat: no-repeat;    
+    background-attachment: fixed;  
+}
+
+nav {
+    padding: 5px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    z-index: 1;
+    background-color: #fff; 
+    border-bottom: 3px solid #3b9b00;
+}
+
+
+.login-link {
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 4px 8px;
+    border-radius: 5px;
+    
+}
+.login-link:hover {
+    background-color: #f5f5f5;
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0; 
+    font-size: 20px;
+}
+
+nav .logo {
+  display: flex;
+  align-items: center;
+  color:#3b9b00;
+}
+nav .logo img {
+  height: 25px;
+  width: auto;
+  margin-right: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin-left: auto; 
+    margin-right: 50vh; 
+    padding: 0;
+}
+nav ul li {
+  margin-left: 1.5rem;
+}
+nav ul li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 95%;
+  font-weight: 400;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color: #f5f5f5;
+}
+#logo {
+    color: #3b9b00;
+}
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger .line {
+  width: 25px;
+  height: 1px;
+  background-color: #1f1f1f;
+  display: block;
+  margin: 7px auto;
+  transition: all 0.3s ease-in-out;
+}
+.hamburger-active {
+  transition: all 0.3s ease-in-out;
+  transition-delay: 0.6s;
+  transform: rotate(45deg);
+}
+
+.hamburger-active .line:nth-child(2) {
+  width: 0px;
+}
+
+.hamburger-active .line:nth-child(1),
+.hamburger-active .line:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.hamburger-active .line:nth-child(1) {
+  transform: translateY(12px);
+}
+
+.hamburger-active .line:nth-child(3) {
+  transform: translateY(-5px) rotate(90deg);
+}
+
+.menubar {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 60%;
+  height: 100vh;
+  padding: 20% 0;
+  background: rgba(255, 255, 255);
+  transition: all 0.5s ease-in;
+  z-index: 2;
+}
+.active {
+  left: 0;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.menubar ul {
+  padding: 0;
+  list-style: none;
+}
+.menubar ul li {
+  margin-bottom: 32px;
+}
+
+.menubar ul li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 95%;
+  font-weight: 400;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.menubar ul li a:hover {
+  background-color: #f5f5f5;
+}
+@media screen and (max-width: 790px) {
+  .hamburger {
+    display: block;
+  }
+  nav ul {
+    display: none;
+  }
+}
+
+/* Base Styles for the Form Container */
+.rental-search-form {
+    display: flex;
+    /* Allows inputs to wrap if screen is too narrow */
+    flex-wrap: nowrap; 
+    align-items: stretch;
+    background-color: #fff;
+    /* Large shadow to make it pop */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+    border-radius: 12px;
+    max-width: 1000px;
+    margin: 40px auto; /* Center the form on the page */
+    border: 1px solid #ddd;
+}
+
+/* Individual Input Groups */
+.input-group {
+    /* Set all groups to grow equally, except the button */
+    flex-grow: 1; 
+    padding: 10px 15px;
+    border-right: 1px solid #e9e9e9;
+    min-width: 150px;
+    /* This makes the label appear above the input */
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Remove border from the last group */
+.input-group:last-of-type {
+    border-right: none;
+}
+
+/* Label Styling (Small and Focused) */
+.input-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+/* Base Input and Select Styling */
+.form-input, .form-select {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 2px 0;
+    width: 100%;
+    /* Ensure no default select styling */
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Styling for the Location Input */
+.location-group .form-input {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #121214;
+    cursor: text;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    z-index: 1000;
+}
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Date and Time Grouping */
+.date-time-group {
+    display: flex;
+    flex-direction: row;
+    /* Divide the date/time group into two equal halves (From & Until) */
+    flex-grow: 2; 
+    padding: 0;
+}
+.cityFilter li{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.date-time-field {
+    flex-grow: 1;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Visual divider between From and Until */
+.start-field {
+    border-right: 1px solid #e9e9e9;
+}
+
+.date-time-container {
+    display: flex;
+    align-items: center;
+}
+
+/* The date input (which opens a calendar) */
+.date-input {
+    font-weight: 500;
+    color: #3b9b00; /* Highlight color for "Add dates" */
+    flex-grow: 1;
+}
+
+/* The time dropdown */
+.time-select {
+    width: auto;
+    min-width: 90px;
+    margin-left: 10px;
+    color: #666;
+    /* Custom icon for the dropdown (Turo/Hertz often hide the default) */
+    background: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 5px center;
+    background-size: 12px;
+    padding-right: 20px;
+}
+
+/* Search Button */
+.search-button {
+    background-color: #3b9b00; /* Primary action color (blue) */
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 0 12px 12px 0; /* Match container border-radius */
+    padding: 0 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent the button from shrinking */
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: #3b9b00;
+}
+
+.search-button span {
+    margin-left: 8px;
+}
+
+/* Search Icon Styling */
+.search-button svg {
+    fill: white;
+    height: 20px;
+    width: 20px;
+}
+
+
+
+

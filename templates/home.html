@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Responsive Navbar</title>
+		<link rel="stylesheet" type="text/css" target="_blank" href="/static/syle.css" />
+	</head>
+	<body>
+		<nav>
+    <div class="nav-logo">
+        <h1 id="logo">ZAAK</h1>
+    </div>
+    
+    <div class="nav-spacer"></div> 
+
+    <ul>
+        <li>
+            <a href="#">Services</a>
+        </li>
+        <li>
+            <a href="#">About</a>
+        </li>
+        <li>
+            <a href="#">Contact</a>
+        </li>
+    </ul>
+
+    <a href="#" class="login-link">Log in</a> 
+</nav>
+		<div class="menubar">
+			<ul>
+				<li>
+					<a href="#">Home</a>
+				</li>
+				<li>
+					<a href="#">Services</a>
+				</li>
+				<li>
+					<a href="#">Blog</a>
+				</li>
+				<li>
+					<a href="#">Contact Us</a>
+				</li>
+			</ul>
+		</div>
+		<section id="backImg">
+            
+            </section>
+
+<form class="rental-search-form" autocomplete="off">
+    <div class="input-group location-group">
+        <label for="location-input" class="input-label">Where</label>
+       <div class="input-container">
+    <input 
+        type="text" 
+        id="location-input" 
+        placeholder="City, address, or airport" 
+        class="form-input text-input"
+    >
+    <ul id="suggestions" class="suggestions-list"></ul> <!-- Added -->
+</div>
+
+
+    </div>
+    
+    <div class="input-group date-time-group">
+        <div class="date-time-field start-field">
+            <label for="start-date" class="input-label">From</label>
+            <div class="date-time-container">
+                <input type="text" id="start-date" value="Add dates" readonly class="form-input date-input">
+                <select id="start-time" class="form-select time-select">
+                    <li value="">Add time</li>
+                    <li value="10:00">10:00 AM</li>
+                    <li value="11:00">11:00 AM</li>
+                </select>
+            </div>
+        </div>
+        <div class="date-time-field end-field">
+            <label for="end-date" class="input-label">Until</label>
+            <div class="date-time-container">
+                <input type="text" id="end-date" value="Add dates" readonly class="form-input date-input">
+                <select id="end-time" class="form-select time-select">
+                    <li value="">Add time</li>
+                    <li value="17:00">5:00 PM</li>
+                    <li value="18:00">6:00 PM</li>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <button type="submit" class="search-button">
+        <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <span>Search</span>
+    </button>
+</form>
+<script></script>
+
+		<script src="/static/app.js"></script>
+	</body>
+</html>
