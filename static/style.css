@@ -183,7 +183,8 @@ nav ul li a:hover {
   .hamburger {
     display: block;
   }
-  nav ul {
+
+  nav ul.nav-links {
     display: none;
   }
 }

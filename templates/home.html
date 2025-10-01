@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Responsive Navbar</title>
-		<link rel="stylesheet" type="text/css" target="_blank" href="/static/syle.css" />
+		<link rel="stylesheet" type="text/css" target="_blank" href="../static/style.css" />
 	</head>
 	<body>
 		<nav>
@@ -15,17 +15,13 @@
     
     <div class="nav-spacer"></div> 
 
-    <ul>
-        <li>
-            <a href="#">Services</a>
-        </li>
-        <li>
-            <a href="#">About</a>
-        </li>
-        <li>
-            <a href="#">Contact</a>
-        </li>
-    </ul>
+     <ul class="nav-links">
+    <li><a href="#">Services</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+
+  <a href="#" class="login-link">Log in</a>
 
     <a href="#" class="login-link">Log in</a> 
 </nav>
@@ -49,13 +45,14 @@
             
             </section>
 
-<form class="rental-search-form" autocomplete="off">
+<form class="rental-search-form" action="/search" method="POST" autocomplete="off">
     <div class="input-group location-group">
         <label for="location-input" class="input-label">Where</label>
        <div class="input-container">
     <input 
         type="text" 
         id="location-input" 
+        name="location"
         placeholder="City, address, or airport" 
         class="form-input text-input"
     >

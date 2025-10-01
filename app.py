@@ -1,7 +1,8 @@
-from flask import Flask, render_template,redirect,request, SESSION
+from flask import Flask, render_template,redirect,request, session, url_for
 from flask_scss import Scss
 from flask_sqlalchemy import SQLAlchemy
 from objects import Car, Booking, User
+from datetime import datetime
 
 app = Flask(__name__)
 Scss(app)
@@ -15,12 +16,17 @@ db = SQLAlchemy(app)
 
 app.config["SESSION_PERMANET"] = False
 app.config["SESSOIN_TYPE"] = "filesystem"
-SESSION(app)
+SESSION(app) 
 # "Home"
 
 @app.route("/", methods=["POST", "GET"])
 def index():
     return render_template("index.html", name=session.get("name"))
+
+@app.route("/payment/<int:car_id>")
+def payment(car_id):
+    car = Car.query.get_or_404(car_id)
+    return render_template("payment.html", car=car)
 
 # Payment Portal
 @app.route("/process_payment", methods=["POST"])
@@ -40,7 +46,7 @@ def process_payment():
 
     # Create booking with date range
     booking = Booking(
-        start_date=datetime.strptime(start_date, "%Y-%m-%d"),
+         start_date=datetime.strptime(start_date, "%Y-%m-%d"),
         end_date=datetime.strptime(end_date, "%Y-%m-%d"),
         user_id=user.id,
         car_id=car_id,
