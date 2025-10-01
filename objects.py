@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, redirect, request, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -25,6 +25,18 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.name}>'
+    
+    @classmethod
+    def set_password(self, newPass: str):
+        self.password = newPass
+
+    def check_password(self, entry: str):
+        if (self.password == entry):
+            return True
+        else:
+            return False
+
+
 
 
 class Car(db.Model):
@@ -38,16 +50,26 @@ class Car(db.Model):
 
     def __repr__(self):
         return f'<Car {self.make} {self.model}>'
+    
+    @classmethod
+    def set_available(self):
+        self.available = True
+
+    def set_unavailable(self):
+        self.available = False
+
+    def get_availability(self):
+        return self.available
 
 
 class Booking(db.Model):
-    __tablename__ = 'bookings'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    car_id = db.Column(db.Integer, db.ForeignKey('cars.id'), nullable=False)
-    start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    end_date = db.Column(db.DateTime, nullable=False)
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    car_id = db.Column(db.Integer, db.ForeignKey("car.id"))
+    payment_status = db.Column(db.String(50))
 
-    def __repr__(self):
-        return f'<Booking User {self.user_id} Car {self.car_id}>'
+    user = db.relationship("User", backref="bookings")
+    car = db.relationship("Car", backref="bookings")
 
