@@ -5,30 +5,53 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Responsive Navbar</title>
-		<link rel="stylesheet" type="text/css" target="_blank" href="../static/style.css" />
+		<link rel="stylesheet" type="text/css" target="_blank" href="/static/style.css" />
 	</head>
 	<body>
-		<nav>
-    <div class="nav-logo">
-        <h1 id="logo">ZAAK</h1>
-    </div>
-    
-    <div class="nav-spacer"></div> 
+<nav>
+  <div class="nav-logo">
+    <h1 id="logo">ZAAK</h1>
+  </div>
 
-     <ul class="nav-links">
+  <!-- HAMBURGER BUTTON (add this!) -->
+  <div class="hamburger" id="hamburger">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </div>
+
+  <!-- NAV LINKS (for desktop) -->
+  <ul class="nav-links">
     <li><a href="#">Services</a></li>
     <li><a href="#">About</a></li>
     <li><a href="#">Contact</a></li>
+    <li><a href="#" class="login-link">Log in</a></li>
   </ul>
+  <div id="login-modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h1>ZAAK</h1>
+    <h2>Login</h2>
+    <form action="#" method="post">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Log In</button>
+    </form>
+  </div>
+</div>
 
-  <a href="#" class="login-link">Log in</a>
-
-    <a href="#" class="login-link">Log in</a> 
+  
 </nav>
 		<div class="menubar">
 			<ul>
 				<li>
-					<a href="#">Home</a>
+					<a href="#">Log in</a>
 				</li>
 				<li>
 					<a href="#">Services</a>
@@ -42,60 +65,79 @@
 			</ul>
 		</div>
 		<section id="backImg">
+
             
             </section>
 
-<form class="rental-search-form" action="/search" method="POST" autocomplete="off">
-    <div class="input-group location-group">
+
+
+
+<form class="rental-search-form" autocomplete="off" method="POST" action="/">
+    <div id="" class="input-group location-group">
         <label for="location-input" class="input-label">Where</label>
-       <div class="input-container">
-    <input 
-        type="text" 
-        id="location-input" 
-        name="location"
-        placeholder="City, address, or airport" 
-        class="form-input text-input"
-    >
-    <ul id="suggestions" class="suggestions-list"></ul> <!-- Added -->
-</div>
-
-
+        <div class="input-container">
+            <input 
+                type="text" 
+                id="location-input" 
+                placeholder="City, address, or airport" 
+                class="form-input text-input"
+            >
+            <ul id="suggestions" class="suggestions-list">
+                </ul> 
+        </div>
     </div>
+    <input type="hidden" id="selected-location-value" name="location_id">
+
     
-    <div class="input-group date-time-group">
+    <div class="form-group date-time-group">
         <div class="date-time-field start-field">
             <label for="start-date" class="input-label">From</label>
             <div class="date-time-container">
-                <input type="text" id="start-date" value="Add dates" readonly class="form-input date-input">
-                <select id="start-time" class="form-select time-select">
-                    <li value="">Add time</li>
-                    <li value="10:00">10:00 AM</li>
-                    <li value="11:00">11:00 AM</li>
-                </select>
+                <input type="text" id="start-date" value="Start Date" class="form-input date-input" name="start_date" readonly onclick="showDateTimePopup('start')">
+                <input type="text" id="start-time" class="form-input time-input" name="start_time" readonly onclick="showDateTimePopup('start')">
             </div>
         </div>
         <div class="date-time-field end-field">
             <label for="end-date" class="input-label">Until</label>
             <div class="date-time-container">
-                <input type="text" id="end-date" value="Add dates" readonly class="form-input date-input">
-                <select id="end-time" class="form-select time-select">
-                    <li value="">Add time</li>
-                    <li value="17:00">5:00 PM</li>
-                    <li value="18:00">6:00 PM</li>
-                </select>
+                <input type="text" id="end-date" value="End Date" class="form-input date-input" name="end_date" readonly onclick="showDateTimePopup('end')">
+                <input type="text" id="end-time" class="form-input time-input" name="end_time" readonly onclick="showDateTimePopup('end')">
             </div>
         </div>
     </div>
+    </div>
     
     <button type="submit" class="search-button">
-        <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24">
         </svg>
         <span>Search</span>
     </button>
 </form>
+
+<div id="date-time-popup" class="popup-modal">
+    <div class="popup-content">
+        <div class="popup-header">
+            <span id="popup-header-title">Select Date and Time</span>
+            <button class="close-popup" onclick="closePopup()">X</button>
+        </div>
+        <div class="popup-body">
+            <input type="date" id="popup-date" class="popup-date-input">
+            <select id="popup-time" class="popup-time-select">
+                <option value="" disabled selected>Select time</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="17:00">5:00 PM</option>
+                <option value="18:00">6:00 PM</option>
+            </select>
+        </div>
+        <div class="popup-footer">
+            <button class="popup-btn" onclick="selectDateTime()">Select</button>
+        </div>
+    </div>
+</div>
 <script></script>
 
 		<script src="/static/app.js"></script>
+        <script src="/static/login.js"></script>
 	</body>
 </html>

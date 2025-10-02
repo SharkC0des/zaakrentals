@@ -1,11 +1,11 @@
 from flask import Flask, render_template,redirect,request, session, url_for
-from flask_scss import Scss
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from objects import Car, Booking, User
 from datetime import datetime
 
 app = Flask(__name__)
-Scss(app)
+
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///car_rental.db'  # Use PostgreSQL later if needed
@@ -14,14 +14,38 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # End of sql alchemy import
 
-app.config["SESSION_PERMANET"] = False
-app.config["SESSOIN_TYPE"] = "filesystem"
-SESSION(app) 
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app) 
 # "Home"
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template("index.html", name=session.get("name"))
+    if request.method == 'POST':
+        
+        location = request.form.get('location_name')
+        start_date = request.form.get('start_date')
+        start_time = request.form.get('start_time')
+        end_date = request.form.get('end_date')
+        end_time = request.form.get('end_time')
+        
+        return redirect(url_for('search_results', 
+                                location_name=location,
+                                start_date=start_date,
+                                start_time=start_time,
+                                end_date=end_date,
+                                end_time=end_time))
+    return render_template("home.html", name=session.get("name"))
+
+@app.route('/search-results')
+def search_results():
+    location_name = request.args.get('location_name')
+    start_date = request.args.get('start_date')
+    start_time = request.args.get('start_time')
+    end_date = request.args.get('end_date')
+    end_time = request.args.get('end_time')
+
+    return render_template('carPage.html')
 
 @app.route("/payment/<int:car_id>")
 def payment(car_id):
@@ -57,20 +81,33 @@ def process_payment():
 
     return redirect(url_for("home"))
 
-
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        session['name'] = request.form.get("name")
+        name = request.form.get("name")
+        password = request.form.get("password")  
+        if name:  
+            session['name'] = name
+            return redirect("/") 
+        else:
+            return "Login failed. Please try again.", 400
+
+    return render_template("home.html") 
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
         # Add example car if none exist
-        if Car.query.count() == 0:
-            example_car = Car(car_type="Sedan", image_url="/static/car.png")
-            db.session.add(example_car)
-            db.session.commit()
+        # if Car.query.count() == 0:
+        #     example_car = Car(car_type="Sedan", image_url="/static/car.png")
+        #     db.session.add(example_car)
+        #     db.session.commit()
     app.run(debug=True)
 
 
