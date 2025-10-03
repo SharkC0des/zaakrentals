@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/nav/nav.css">
+    <title>Document</title>
+    
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">
+      <a href="/" id="logo">ZAAK</a>
+    </div>
+
+    <!-- HAMBURGER BUTTON -->
+    <div class="hamburger" id="hamburger">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+    </div>
+
+    <!-- NAV LINKS (for desktop) -->
+    <ul class="nav-links">
+      <li><a href="#">Services</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li id="auth-link"><a href="#" class="login-link">Log in / Register</a></li>
+      <!-- Username Dropdown (Initially Hidden) -->
+      <li id="username-display-container" class="dropdown" style="display: none;">
+        <button class="dropbtn" id="username-display">Username</button>
+        <div class="dropdown-content">
+          <a href="#" id="view-profile">View Profile</a>
+          <a href="#" id="logout">Log Out</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Login/Register Modal -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h1 id="auth-logo">ZAAK</h1>
+      <div id="auth-form">
+        <!-- Login Form -->
+        <div id="login-form">
+          <h2>Login</h2>
+          <form id="login-form-submit">
+            <div class="form-group">
+              <label for="login-username">Username</label>
+              <input type="text" id="login-username" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" name="password" required>
+            </div>
+            <button type="submit" class="submit-btn">Log In</button>
+            <p>Don't have an account? <span id="switch-to-register">Sign Up</span></p>
+          </form>
+        </div>
+
+        <!-- Register Form (Initially Hidden) -->
+        <div id="register-form" style="display: none;">
+          <h2>Register</h2>
+          <form id="register-form-submit">
+            <div class="form-group">
+              <label for="register-username">Username</label>
+              <input type="text" id="register-username" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="register-password">Password</label>
+              <input type="password" id="register-password" name="password" required>
+            </div>
+            <button type="submit" class="submit-btn">Sign Up</button>
+            <p>Already have an account? <span id="switch-to-login">Log In</span></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/login.js"></script>
+</body>
+
+    
+    </html>
+    

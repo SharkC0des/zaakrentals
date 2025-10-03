@@ -8,70 +8,11 @@
 		<link rel="stylesheet" type="text/css" target="_blank" href="/static/style.css" />
 	</head>
 	<body>
-<nav>
-  <div class="nav-logo">
-    <h1 id="logo">ZAAK</h1>
-  </div>
-
-  <!-- HAMBURGER BUTTON (add this!) -->
-  <div class="hamburger" id="hamburger">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </div>
-
-  <!-- NAV LINKS (for desktop) -->
-  <ul class="nav-links">
-    <li><a href="#">Services</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Contact</a></li>
-    <li><a href="#" class="login-link">Log in</a></li>
-  </ul>
-  <div id="login-modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h1>ZAAK</h1>
-    <h2>Login</h2>
-    <form action="#" method="post">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <button type="submit" class="submit-btn">Log In</button>
-    </form>
-  </div>
+      
+<div class="nav">
+    {% include "nav.html" %}
 </div>
-
-  
-</nav>
-		<div class="menubar">
-			<ul>
-				<li>
-					<a href="#">Log in</a>
-				</li>
-				<li>
-					<a href="#">Services</a>
-				</li>
-				<li>
-					<a href="#">Blog</a>
-				</li>
-				<li>
-					<a href="#">Contact Us</a>
-				</li>
-			</ul>
-		</div>
-		<section id="backImg">
-
-            
-            </section>
-
-
-
-
+	<section class="search_home">
 <form class="rental-search-form" autocomplete="off" method="POST" action="/">
     <div id="" class="input-group location-group">
         <label for="location-input" class="input-label">Where</label>
@@ -105,7 +46,7 @@
             </div>
         </div>
     </div>
-    </div>
+    
     
     <button type="submit" class="search-button">
         <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24">
@@ -135,9 +76,14 @@
         </div>
     </div>
 </div>
-<script></script>
+</section>	
+    <div class="footer">
+        {% include "footer.html" %}
+    </div>
 
 		<script src="/static/app.js"></script>
         <script src="/static/login.js"></script>
+
+        
 	</body>
 </html>
