@@ -21,17 +21,13 @@
     padding: 0px 20px;
 }
 
-nav {
-    padding: 5px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-    z-index: 1;
-    background-color: #fff; 
-    border-bottom: 3px solid #3b9b00;
 
+
+#toptext{
+  color: rgba(255, 255, 255, 0.828);
+  position: relative;
+  text-align: center;
+  top: 15vh;
 }
 
 
@@ -187,6 +183,8 @@ nav ul li a:hover {
     max-width: 1000px;
     margin: 40px auto; /* Center the form on the page */
     border: 1px solid #ddd;
+    position: relative;
+    top: 20vh;
 }
 
 /* Individual Input Groups */
@@ -377,11 +375,11 @@ body {
 }
 
 .search_home{
-  background-image: url("https://plus.unsplash.com/premium_photo-1698080249116-de37e81e568e?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-  min-height: 977px !important;
+  background-image: url("https://photojeepers.com/wp-content/uploads/2023/04/DSC_2633-scaled.jpg");
+  min-height: 1000px !important;
   position: relative;
-  margin-bottom: -50px;
-  top:-40px;
+  margin-bottom: -30px;
+  top:-22px;
   background-size: cover;
 }
 

@@ -38,6 +38,7 @@ nav {
     background-color: #fff; 
     border-bottom: 3px solid #3b9b00;
     height: 80px;
+    
 
 }
 
@@ -98,7 +99,7 @@ nav ul li a:hover {
 #logo {
     color: #3b9b00;
     position: relative;
-    top: 10px;
+    bottom: 5px;
     text-decoration: none;
     font-size: 40px;
 }
