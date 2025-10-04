@@ -4,6 +4,7 @@ from flask_session import Session
 from objects import Car, Booking, User
 from datetime import datetime
 from database import db
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -34,6 +35,32 @@ def car_page():
         print(f"Car: {car.model}, Price: {car.price}")  # Debug line
     return render_template("carPage.html", cars=cars)
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash("Please log in to access this page", "warning")
+            return redirect(url_for('login', next=request.url))
+        
+        user = User.query.get(session['user_id'])
+        if not user or not user.is_admin:
+            flash("Admin access required", "error")
+            return redirect("/")
+        
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    cars = Car.query.all()
+    users = User.query.all()
+    bookings = Booking.query.all()
+    return render_template("adminDashboard.html", 
+                         cars=cars, 
+                         users=users, 
+                         bookings=bookings)
 
 @app.route("/admin/add-car", methods=["GET", "POST"])
 def admin_add_car():
@@ -159,26 +186,44 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def login():
     # Handle GET and POST requests
     if request.method == "POST":
-        name = request.form.get("name")
-        password = request.form.get("password")  # You can add password validation logic here
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-        if name:  
-            session['name'] = name
-            app.logger.info(f"Login successful for user: {name}")
+        #throw error if user doesnt input either box
+        if not email or not password:
+            flash("Email and password are required to login", "error")
+            return redirect("/")
+        
+        user = User.query.filter_by(email=email).first()
 
-            # Check if 'next' is provided (the URL the user was trying to access before logging in)
-            next_page = request.args.get('next')
-            if next_page:
-                return redirect(next_page)  # Redirect to the original page
-            else:
-                return redirect("/")  # Default redirection to home page
+        if user and user.check_password(password):
+            #this is a successful login yippee
+            app.logger.info(f"Login successful for user: {email}")\
+            
+            #still figuring out what session does lol give me a min
+            session['user_id'] = user.id
+            session['name'] = user.name
+            session['email'] = user.email
+            session['is_admin'] = user.is_admin
+
+            #bring admin to the admin dash
+            if user.is_admin:
+                flash(f"Welcom back Admin!", "success")
+                return redirect("/admin")
+
+            #send normies back to the home page
+            else: 
+                return redirect("/")
 
         else:
-            app.logger.warning("Login failed: Name not provided.")
-            return "Login failed. Please try again.", 400
+            #unsucessful
+            flash("Invalid email or password", "error")
+            app.logger.warning(f"Failed login attempt for email: {email}")
+            return redirect("/")
+
 
     # If it's a GET request, render the login page
-    return render_template("/")  # Home page with login form
+    return redirect("/")
 
 @app.route("/logout")
 def logout():

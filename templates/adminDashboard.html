@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/carPage/carPage.css" />
+    <style>
+        .admin-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .add-car-btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .add-car-btn:hover {
+            background-color: #45a049;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .delete-btn:hover {
+            background-color: #da190b;
+            transform: scale(1.1);
+        }
+
+        .product-card {
+            position: relative;
+        }
+
+        .edit-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        .car-info {
+            position: absolute;
+            bottom: 50px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .alert {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .section-divider {
+            max-width: 1200px;
+            margin: 60px auto 40px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .section-divider h2 {
+            font-size: 2em;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .bookings-table-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .admin-table th {
+            background-color: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .admin-table tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">{% include "nav.html" %}</div>
+
+    <div class="admin-header">
+        <h1>🚗 Admin Dashboard</h1>
+        <p>Manage your car rental inventory</p>
+        <a href="/admin/add-car" class="add-car-btn">➕ Add New Car</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <div class="car-filter">
+            <div class="filter-container">
+                <h3>Filter by Vehicle Type</h3>
+                <button id="sedanBtn" onclick="toggleFilter('vehicleType', 'Sedan')">Sedan</button>
+                <button id="suvBtn" onclick="toggleFilter('vehicleType', 'SUV')">SUV</button>
+                <button id="truckBtn" onclick="toggleFilter('vehicleType', 'Truck')">Truck</button>
+            </div>
+
+            <div class="filter-container">
+                <h3>Sort By</h3>
+                <select id="sortBy" onchange="filterCars()">
+                    <option value="default">Select Sorting</option>
+                    <option value="priceLowHigh">Price: Low to High</option>
+                    <option value="priceHighLow">Price: High to Low</option>
+                </select>
+            </div>
+
+            <div class="filter-container">
+                <h3>Filter by Location</h3>
+                <button onclick="toggleFilter('location', 'NY')">NY</button>
+                <button onclick="toggleFilter('location', 'RI')">RI</button>
+                <button onclick="toggleFilter('location', 'ME')">ME</button>
+            </div>
+
+            <div class="price-range">
+                <h3>Price Range</h3>
+                <input type="range" id="priceRange" min="0" max="210" step="10" oninput="updatePriceLabel()" />
+                <span id="priceLabel">0 - 210</span>
+            </div>
+        </div>
+
+        <div class="products-grid">
+            {% for car in cars %}
+            <div class="product-card" 
+                 data-model="{{ car.model }}" 
+                 data-price="{{ car.price }}"
+                 data-vehicle-type="{{ car.vehicle_type }}"
+                 data-location="{{ car.location or 'N/A' }}"
+                 data-passengers="{{ car.passengers }}"
+                 data-doors="{{ car.doors }}">
+                
+                <!-- Delete Button (Red X) -->
+                <form method="POST" action="/admin/delete-car/{{ car.id }}" style="display:inline;">
+                    <button type="submit" class="delete-btn" 
+                            onclick="return confirm('Are you sure you want to delete {{ car.model }}?')">
+                        ✕
+                    </button>
+                </form>
+
+                <div class="product-image">
+                    <img src="{{ car.image }}" alt="{{ car.model }}">
+                    <span class="product-badge">${{ car.price }}/day</span>
+                </div>
+
+                <div class="car-info">
+                    <strong>ID:</strong> {{ car.id }} | <strong>Location:</strong> {{ car.location or 'N/A' }}
+                </div>
+
+                <div class="product-details">
+                    <h3 class="product-name">{{ car.model }}</h3>
+                    <p class="product-material">{{ car.vehicle_type }} • {{ car.passengers }} passengers • {{ car.doors }} doors</p>
+                    <a href="/admin/edit-car/{{ car.id }}" class="edit-btn">Edit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bookings Section -->
+    <div class="section-divider">
+        <h2>📋 Recent Bookings</h2>
+    </div>
+
+    <div class="bookings-table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Car</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.user.name }}</td>
+                    <td>{{ booking.car.model }}</td>
+                    <td>{{ booking.start_date.strftime('%Y-%m-%d') if booking.start_date else 'N/A' }}</td>
+                    <td>{{ booking.end_date.strftime('%Y-%m-%d') if booking.end_date else 'N/A' }}</td>
+                    <td>{{ booking.payment_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../static/carPage/carPage.js"></script>
+</body>
+</html>

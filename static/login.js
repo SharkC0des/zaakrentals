@@ -62,7 +62,7 @@ registerFormSubmit.addEventListener('submit', (e) => {
   alert('Registration successful!');
   authModal.style.display = 'none';
 });
-
+/*
 // Handle login form submission
 loginFormSubmit.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -81,7 +81,7 @@ loginFormSubmit.addEventListener('submit', (e) => {
     alert('Invalid username or password!');
   }
 });
-
+*/
 // Update UI to show username and dropdown after login
 function updateUI() {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));

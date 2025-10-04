@@ -20,21 +20,21 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    age = db.Column(db.Integer, nullable=False)
+    #age = db.Column(db.Integer, nullable=False)
     password = db.Column(db.String(128), nullable=False)  # store hashed passwords
+    is_admin = db.Column(db.Boolean, default=False)
 
+
+    def set_password(self, password):
+        from werkzeug.security import generate_password_hash
+        self.password = generate_password_hash(password)
+    
+    def check_password(self, password):
+        from werkzeug.security import check_password_hash
+        return check_password_hash(self.password, password)
+    
     def __repr__(self):
         return f'<User {self.name}>'
-    
-    @classmethod
-    def set_password(self, newPass: str):
-        self.password = newPass
-
-    def check_password(self, entry: str):
-        if (self.password == entry):
-            return True
-        else:
-            return False
 
 
 
