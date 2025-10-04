@@ -1,100 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
 	// Object to store the selected filters
-let selectedFilters = {
-  vehicleType: [],
-  passengers: [],
-  doors: [],
-  priceRange: { min: 0, max: 210 },
-  sortBy: 'default',
-};
-
-// Toggle filters (Vehicle Type, Passengers, Doors)
-function toggleFilter(category, value) {
-  const filterArray = selectedFilters[category];
-
-  // Toggle the selected filter
-  if (filterArray.includes(value)) {
-    selectedFilters[category] = filterArray.filter((item) => item !== value);
-  } else {
-    filterArray.push(value);
-  }
-
-  filterCars();
-}
-
-// Update the price range
-function updatePriceLabel() {
-  const priceRangeInput = document.getElementById('priceRange');
-  const priceLabel = document.getElementById('priceLabel');
-
-  const minPrice = priceRangeInput.value;
-  const maxPrice = minPrice + 10; // Price range is in intervals of 10
-
-  selectedFilters.priceRange.min = minPrice;
-  selectedFilters.priceRange.max = maxPrice;
-
-  priceLabel.textContent = `${minPrice} - ${maxPrice}`;
-  filterCars();
-}
-
-// Filter cars based on selected filters
-function filterCars() {
-  const cars = document.querySelectorAll('.product-card');
-
-  cars.forEach((car) => {
-    let shouldDisplay = true;
-    const model = car.getAttribute('data-model');
-    const price = parseInt(car.getAttribute('data-price').replace('$', '').replace('/day', ''));
-    const vehicleType = car.getAttribute('data-model').toLowerCase().includes('suv') ? 'SUV' :
-                         car.getAttribute('data-model').toLowerCase().includes('sedan') ? 'Sedan' : 'Truck';
-    const passengers = parseInt(car.getAttribute('data-model').match(/\d+/)[0]);
-    const doors = parseInt(car.getAttribute('data-model').match(/\d+ door/)[0]?.split(' ')[0]);
-
-    // Filter by Vehicle Type
-    if (selectedFilters.vehicleType.length && !selectedFilters.vehicleType.includes(vehicleType)) {
-      shouldDisplay = false;
-    }
-
-    // Filter by Passengers
-    if (selectedFilters.passengers.length && !selectedFilters.passengers.includes(passengers)) {
-      shouldDisplay = false;
-    }
-
-    // Filter by Doors
-    if (selectedFilters.doors.length && !selectedFilters.doors.includes(doors)) {
-      shouldDisplay = false;
-    }
-
-    // Filter by Price Range
-    if (price < selectedFilters.priceRange.min || price > selectedFilters.priceRange.max) {
-      shouldDisplay = false;
-    }
-
-    // Sorting
-    if (selectedFilters.sortBy !== 'default') {
-      cars.sort((a, b) => {
-        const priceA = parseInt(a.getAttribute('data-price').replace('$', '').replace('/day', ''));
-        const priceB = parseInt(b.getAttribute('data-price').replace('$', '').replace('/day', ''));
-
-        if (selectedFilters.sortBy === 'priceLowHigh') {
-          return priceA - priceB;
-        } else if (selectedFilters.sortBy === 'priceHighLow') {
-          return priceB - priceA;
-        }
-        return 0;
-      });
-    }
-
-    // Show or hide the car based on filters
-    car.style.display = shouldDisplay ? 'block' : 'none';
-  });
-}
-
-// Sort functionality for select dropdown
-document.getElementById('sortBy').addEventListener('change', (e) => {
-  selectedFilters.sortBy = e.target.value;
-  filterCars();
-});
 
 
 	// Quick view modal functionality
@@ -233,3 +138,103 @@ const continuePaymentBtn = document.getElementById('continue-payment-btn');
 continuePaymentBtn.onclick = function() {
             window.location.href = "/pay"; // Redirect to the /payment route (payment.html)
         }
+
+
+// Object to store the selected filters
+let selectedFilters = {
+  vehicleType: [],
+  passengers: [],
+  doors: [],
+  priceRange: { min: 0, max: 210 },
+  sortBy: 'default',
+};
+
+// Toggle filters (Vehicle Type, Passengers, Doors)
+function toggleFilter(category, value) {
+  const filterArray = selectedFilters[category];
+
+  // Toggle the selected filter
+  if (filterArray.includes(value)) {
+    selectedFilters[category] = filterArray.filter((item) => item !== value);
+  } else {
+    filterArray.push(value);
+  }
+
+  filterCars();
+}
+
+// Update the price range
+function updatePriceLabel() {
+  const priceRangeInput = document.getElementById('priceRange');
+  const priceLabel = document.getElementById('priceLabel');
+
+  const minPrice = priceRangeInput.value;
+  const maxPrice = minPrice + 10; // Price range is in intervals of 10
+
+  selectedFilters.priceRange.min = minPrice;
+  selectedFilters.priceRange.max = maxPrice;
+
+  priceLabel.textContent = `${minPrice} - ${maxPrice}`;
+  filterCars();
+}
+
+// Filter cars based on selected filters
+function filterCars() {
+  const cars = document.querySelectorAll('.product-card');
+
+  cars.forEach((car) => {
+    let shouldDisplay = true;
+
+    // Get data attributes
+    const model = car.getAttribute('data-model');
+    const price = parseInt(car.getAttribute('data-price').replace('$', '').replace('/day', ''));
+    const vehicleType = car.getAttribute('data-vehicle-type');
+    const passengers = parseInt(car.getAttribute('data-passengers'));
+    const doors = parseInt(car.getAttribute('data-doors'));
+
+    // Filter by Vehicle Type
+    if (selectedFilters.vehicleType.length && !selectedFilters.vehicleType.includes(vehicleType)) {
+      shouldDisplay = false;
+    }
+
+    // Filter by Passengers
+    if (selectedFilters.passengers.length && !selectedFilters.passengers.includes(passengers)) {
+      shouldDisplay = false;
+    }
+
+    // Filter by Doors
+    if (selectedFilters.doors.length && !selectedFilters.doors.includes(doors)) {
+      shouldDisplay = false;
+    }
+
+    // Filter by Price Range
+    if (price < selectedFilters.priceRange.min || price > selectedFilters.priceRange.max) {
+      shouldDisplay = false;
+    }
+
+    // Apply sorting (if any)
+    if (selectedFilters.sortBy !== 'default') {
+      const allCars = [...cars];
+      allCars.sort((a, b) => {
+        const priceA = parseInt(a.getAttribute('data-price').replace('$', '').replace('/day', ''));
+        const priceB = parseInt(b.getAttribute('data-price').replace('$', '').replace('/day', ''));
+
+        if (selectedFilters.sortBy === 'priceLowHigh') {
+          return priceA - priceB;
+        } else if (selectedFilters.sortBy === 'priceHighLow') {
+          return priceB - priceA;
+        }
+        return 0;
+      });
+    }
+
+    // Show or hide the car based on filters
+    car.style.display = shouldDisplay ? 'block' : 'none';
+  });
+}
+
+// Sort functionality for select dropdown
+document.getElementById('sortBy').addEventListener('change', (e) => {
+  selectedFilters.sortBy = e.target.value;
+  filterCars();
+});
