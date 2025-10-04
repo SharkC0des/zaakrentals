@@ -105,7 +105,8 @@ h1 {
 	grid-template-columns: repeat(2, 1fr);
 	gap: 12vh;
 	height: 100%;
-    margin-left: 8vh;
+	margin-left: 8vh;
+	padding: 0 40px; /* This adds 40px on both left and right */
 }
 
 .product-card {
@@ -524,5 +525,4 @@ h1 {
 .payment-btn:hover {
   background-color: #45a049;
 }
-
 

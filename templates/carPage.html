@@ -1,179 +1,200 @@
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="../static/carPage/carPage.css" />
-		
-	</head>
-	<body>
-		<div class="nav">{% include "nav.html" %}</div>
-		<div class="container">
-            <div class="car-filter">
-            <div class="filter-container">
-                <h3>Filter by Vehicle Type</h3>
-                <button id="sedanBtn" onclick="toggleFilter('vehicleType', 'Sedan')">Sedan</button>
-                <button id="suvBtn" onclick="toggleFilter('vehicleType', 'SUV')">SUV</button>
-                <button id="truckBtn" onclick="toggleFilter('vehicleType', 'Truck')">Truck</button>
-            </div>
 
-            <div class="filter-container">
-                <h3>Sort By</h3>
-                <select id="sortBy" onchange="filterCars()">
-                    <option value="default">Select Sorting</option>
-                    <option value="priceLowHigh">Price: Low to High</option>
-                    <option value="priceHighLow">Price: High to Low</option>
-                </select>
-            </div>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="../static/carPage/carPage.css" />
 
-            <div class="filter-container">
-                <h3>Filter by Passengers</h3>
-                <button id="twoSeatsBtn" onclick="toggleFilter('passengers', 2)">2</button>
-                <button id="fourSeatsBtn" onclick="toggleFilter('passengers', 4)">4</button>
-                <button id="sixSeatsBtn" onclick="toggleFilter('passengers', 6)">6</button>
-            </div>
+</head>
 
-            <div class="filter-container">
-                <h3>Filter by Doors</h3>
-                <button id="twoDoorsBtn" onclick="toggleFilter('doors', 2)">2</button>
-                <button id="fourDoorsBtn" onclick="toggleFilter('doors', 4)">4</button>
-            </div>
-
-            <div class="price-range">
-                <h3>Price Range</h3>
-                <input type="range" id="priceRange" min="0" max="210" step="10" oninput="updatePriceLabel()" />
-                <span id="priceLabel">0 - 210</span>
-            </div>
-        </div>
-        
-    
-			
-            
-			<div class="products-grid">
-				<div class="product-card" 
-    data-model="Jeep Wrangler 4 dr" 
-    data-price="$92/day" 
-    data-details="Rugged 4x4, perfect for off-road adventure with removable top."
-	data-image="https://vexstockimages.fastly.carvana.io/stockimages/2021_JEEP_WRANGLER%20UNLIMITED%204XE_HIGH%20ALTITUDE%204XE%20SPORT%20UTILITY%204D_WHITE_stock_desktop_1920x1080.png?v=1679945137.768"
-	>
-                    
-					<div class="product-image">
-						<img id="car_img"
-							src="https://vexstockimages.fastly.carvana.io/stockimages/2021_JEEP_WRANGLER%20UNLIMITED%204XE_HIGH%20ALTITUDE%204XE%20SPORT%20UTILITY%204D_WHITE_stock_desktop_1920x1080.png?v=1679945137.768">
-						<span class="product-badge">$92/day</span>
-					</div>
-					<div class="product-details">
-						<h3 class="product-name">Jeep Wrangler 4 dr</h3>
-						<p class="product-material"></p>
-						<p class="product-material">Pay Now and Save</p>
-						<button class="add-to-cart">View Car</button>
-					</div>
-				</div>
-
-				<div class="product-card" data-model="Porsche Sports Car" data-price="$210/day" 
-				data-details="High-performance luxury, stunning speed and handling." 
-				data-image="https://file.kelleybluebookimages.com/kbb/base/evox/CP/51956/2023-Porsche-911-front_51956_032_2400x1800_0Q.png">
-					<div class="product-image">
-						<img id="car_img"
-							src="https://file.kelleybluebookimages.com/kbb/base/evox/CP/51956/2023-Porsche-911-front_51956_032_2400x1800_0Q.png"
-							alt="Merino Wool Throw" />
-                            <span class="product-badge">$210/day</span>
-					</div>
-					<div class="product-details">
-                        
-						<h3 class="product-name">Porsche Sports Car</h3>
-						<p class="product-material">Pay Now and Save</p>
-						
-						<button class="add-to-cart">View Car</button>
-					</div>
-				</div>
-
-				<div class="product-card" data-model="BMW sedan 4 door" data-price="$110/day" 
-				data-details="Executive comfort, smooth ride, and sophisticated styling."
-				data-image="https://images.dealer.com/ddc/vehicles/2024/BMW/M3/Sedan/perspective/front-left/2024_76.png"
-				>
-					<div class="product-image">
-						<img id="car_img"
-							src="https://images.dealer.com/ddc/vehicles/2024/BMW/M3/Sedan/perspective/front-left/2024_76.png"
-							alt="Handblown Glass Vase" />
-						<span class="product-badge">$110/day</span>
-					</div>
-					<div class="product-details">
-						<h3 class="product-name">BMW sedan 4 door</h3>
-						<p class="product-material">Pay Now and Save</p>
-						
-						<button class="add-to-cart">View Car</button>
-					</div>
-				</div>
-
-				<div class="product-card" data-model="Tesla SUV 4 door" 
-
-				data-price="$67/day" 
-				data-details="Electric efficiency, spacious interior, and cutting-edge tech."
-				data-image="https://file.kelleybluebookimages.com/kbb/base/evox/CP/14481/2020-Tesla-Model%20Y-front_14481_032_2400x1800_PPSW.png"
-				>
-					<div class="product-image">
-						<img id="car_img"
-							src="https://file.kelleybluebookimages.com/kbb/base/evox/CP/14481/2020-Tesla-Model%20Y-front_14481_032_2400x1800_PPSW.png" />
-                            <span class="product-badge">$67/day</span>
-					</div>
-					<div class="product-details">
-						<h3 class="product-name">Tesla SUV 4 door</h3>
-						<p class="product-material">Pay Now and Save</p>
-						
-						<button class="add-to-cart">View Car</button>
-					</div>
-				</div>
+<body>
+	<div class="nav">{% include "nav.html" %}</div>
+	<div class="container">
+		<div class="car-filter">
+			<div class="filter-container">
+				<h3>Filter by Vehicle Type</h3>
+				<button id="sedanBtn" onclick="toggleFilter('vehicleType', 'Sedan')">Sedan</button>
+				<button id="suvBtn" onclick="toggleFilter('vehicleType', 'SUV')">SUV</button>
+				<button id="truckBtn" onclick="toggleFilter('vehicleType', 'Truck')">Truck</button>
 			</div>
-		
 
-		<div class="quick-view-modal">
-			<div class="quick-view-content">
-				<button class="quick-view-close">&times;</button>
-				<div class="quick-view-gallery">
-					<img class="quick-view-image" src="" alt="" />
-				</div>
-				<div class="quick-view-details">
-					<h2 class="quick-view-name"></h2>
-					<div class="quick-view-info">
-						<p class="quick-view-material"></p>
-						<p class="quick-view-dimensions"></p>
-					</div>
-					<p class="quick-view-price"></p>
-					<p class="quick-view-description"></p>
-					<div class="quick-view-actions">
-						<button class="quick-view-add">View Car</button>
-						<button class="quick-view-save">Save for Later</button>
-					</div>
-				</div>
+			<div class="filter-container">
+				<h3>Sort By</h3>
+				<select id="sortBy" onchange="filterCars()">
+					<option value="default">Select Sorting</option>
+					<option value="priceLowHigh">Price: Low to High</option>
+					<option value="priceHighLow">Price: High to Low</option>
+				</select>
+			</div>
+
+			<div class="filter-container">
+				<h3>Filter by Passengers</h3>
+				<button id="twoSeatsBtn" onclick="toggleFilter('passengers', 2)">2</button>
+				<button id="fourSeatsBtn" onclick="toggleFilter('passengers', 4)">4</button>
+				<button id="sixSeatsBtn" onclick="toggleFilter('passengers', 6)">6</button>
+			</div>
+
+			<div class="filter-container">
+				<h3>Filter by Doors</h3>
+				<button id="twoDoorsBtn" onclick="toggleFilter('doors', 2)">2</button>
+				<button id="fourDoorsBtn" onclick="toggleFilter('doors', 4)">4</button>
+			</div>
+
+			<div class="price-range">
+				<h3>Price Range</h3>
+				<input type="range" id="priceRange" min="0" max="210" step="10" oninput="updatePriceLabel()" />
+				<span id="priceLabel">0 - 210</span>
 			</div>
 		</div>
 
-		
-</div>
 
 
-<div id="product-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2 id="modal-title"></h2>
-	<img id="modal-image" src="" alt="Product Image" style="width:200px; height:auto;">
-    <p id="modal-details"></p>
-    <p id="modal-price"></p>
-    
-    <button id="continue-payment-btn" class="payment-btn">Continue To Payment</button>
-  </div>
-</div>
 
-<div class="footer">
-	{%include "footer.html" %}
-</div>
-    <script src="../static/carPage/carPage.js"></script>
+		<div class="products-grid">
+			<!-- BELOW THIS IS THE HARD CODED CARS feel free to uncomment this if my code flops -adam-->
+			<!-- <div class="product-card" data-model="Jeep Wrangler 4 dr" data-price="$92/day"
+				data-details="Rugged 4x4, perfect for off-road adventure with removable top."
+				data-image="https://vexstockimages.fastly.carvana.io/stockimages/2021_JEEP_WRANGLER%20UNLIMITED%204XE_HIGH%20ALTITUDE%204XE%20SPORT%20UTILITY%204D_WHITE_stock_desktop_1920x1080.png?v=1679945137.768">
+
+				<div class="product-image">
+					<img id="car_img"
+						src="https://vexstockimages.fastly.carvana.io/stockimages/2021_JEEP_WRANGLER%20UNLIMITED%204XE_HIGH%20ALTITUDE%204XE%20SPORT%20UTILITY%204D_WHITE_stock_desktop_1920x1080.png?v=1679945137.768">
+					<span class="product-badge">$92/day</span>
+				</div>
+				<div class="product-details">
+					<h3 class="product-name">Jeep Wrangler 4 dr</h3>
+					<p class="product-material"></p>
+					<p class="product-material">Pay Now and Save</p>
+					<button class="add-to-cart">View Car</button>
+				</div>
+			</div>
+
+			
+			<div class="product-card" data-model="Porsche Sports Car" data-price="$210/day"
+				data-details="High-performance luxury, stunning speed and handling."
+				data-image="https://file.kelleybluebookimages.com/kbb/base/evox/CP/51956/2023-Porsche-911-front_51956_032_2400x1800_0Q.png">
+				<div class="product-image">
+					<img id="car_img"
+						src="https://file.kelleybluebookimages.com/kbb/base/evox/CP/51956/2023-Porsche-911-front_51956_032_2400x1800_0Q.png"
+						alt="Merino Wool Throw" />
+					<span class="product-badge">$210/day</span>
+				</div>
+				<div class="product-details">
+
+					<h3 class="product-name">Porsche Sports Car</h3>
+					<p class="product-material">Pay Now and Save</p>
+
+					<button class="add-to-cart">View Car</button>
+				</div>
+			</div>
+
+			<div class="product-card" data-model="BMW sedan 4 door" data-price="$110/day"
+				data-details="Executive comfort, smooth ride, and sophisticated styling."
+				data-image="https://images.dealer.com/ddc/vehicles/2024/BMW/M3/Sedan/perspective/front-left/2024_76.png">
+				<div class="product-image">
+					<img id="car_img"
+						src="https://images.dealer.com/ddc/vehicles/2024/BMW/M3/Sedan/perspective/front-left/2024_76.png"
+						alt="Handblown Glass Vase" />
+					<span class="product-badge">$110/day</span>
+				</div>
+				<div class="product-details">
+					<h3 class="product-name">BMW sedan 4 door</h3>
+					<p class="product-material">Pay Now and Save</p>
+
+					<button class="add-to-cart">View Car</button>
+				</div>
+			</div>
+
+			<div class="product-card" data-model="Tesla SUV 4 door" data-price="$67/day"
+				data-details="Electric efficiency, spacious interior, and cutting-edge tech."
+				data-image="https://file.kelleybluebookimages.com/kbb/base/evox/CP/14481/2020-Tesla-Model%20Y-front_14481_032_2400x1800_PPSW.png">
+				<div class="product-image">
+					<img id="car_img"
+						src="https://file.kelleybluebookimages.com/kbb/base/evox/CP/14481/2020-Tesla-Model%20Y-front_14481_032_2400x1800_PPSW.png" />
+					<span class="product-badge">$67/day</span>
+				</div>
+				<div class="product-details">
+					<h3 class="product-name">Tesla SUV 4 door</h3>
+					<p class="product-material">Pay Now and Save</p>
+
+					<button class="add-to-cart">View Car</button>
+				</div>
+			</div>
+		</div> -->
+
+			<!-- Below this is my SQL integration (or at least i hope lol -adam)-->
+
+			{% for car in cars %}
+			<div class="product-card" data-model="{{ car.model }}" data-price="${{ car.price }}/day"
+				data-details="{{ car.details }}" data-image="{{ car.image }}">
+
+				<div class="product-image">
+					<img src="{{ car.image }}" alt="{{ car.model }}">
+					<span class="product-badge">${{ car.price }}/day</span>
+				</div>
+				<div class="product-details">
+					<h3 class="product-name">{{ car.model }}</h3>
+					<p class="product-material">Pay Now and Save</p>
+					<button class="add-to-cart">View Car</button>
+				</div>
+			</div>
+			{% endfor %}
+
+
+
+			<div class="quick-view-modal">
+				<div class="quick-view-content">
+					<button class="quick-view-close">&times;</button>
+					<div class="quick-view-gallery">
+						<img class="quick-view-image" src="" alt="" />
+					</div>
+					<div class="quick-view-details">
+						<h2 class="quick-view-name"></h2>
+						<div class="quick-view-info">
+							<p class="quick-view-material"></p>
+							<p class="quick-view-dimensions"></p>
+						</div>
+						<p class="quick-view-price"></p>
+						<p class="quick-view-description"></p>
+						<div class="quick-view-actions">
+							<button class="quick-view-add">View Car</button>
+							<button class="quick-view-save">Save for Later</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div style="background: yellow; padding: 10px;">
+				<h3>Debug Info:</h3>
+				<p>Total cars received: {{ cars|length }}</p>
+			</div>
+
+
+		</div>
+
+
+		<div id="product-modal" class="modal">
+			<div class="modal-content">
+				<span class="close-btn">&times;</span>
+				<h2 id="modal-title"></h2>
+				<img id="modal-image" src="" alt="Product Image" style="width:200px; height:auto;">
+				<p id="modal-details"></p>
+				<p id="modal-price"></p>
+
+				<button id="continue-payment-btn" class="payment-btn">Continue To Payment</button>
+			</div>
+		</div>
+
+
+		<script src="../static/carPage/carPage.js"></script>
 </body>
+
 </html>
 
 
 
 
-		
-	</body>
+
+</body>
+
 </html>
