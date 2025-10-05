@@ -24,8 +24,8 @@ let selectedCard = '1';
 let property = null;
 const mockProperty = {
     id: '1',
-    title: 'Luxury Downtown Apartment',
-    location: 'Manhattan, NY',
+    title: 'Rental Purchase',
+    location: 'Earth',
     tokenPrice: 1250,
     image: 'https://via.placeholder.com/300x200'
 };
