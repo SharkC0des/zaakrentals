@@ -83,7 +83,7 @@ document.addEventListener('click', (e) => {
 // Function to show the date and time popup for either 'start' or 'end'
 function showDateTimePopup(type) {
     document.getElementById('date-time-popup').classList.add('show');
-    document.getElementById('popup-header-title').innerText = `Select ${type.charAt(0).toUpperCase() + type.slice(1)} Date and Time`;
+    document.getElementById('popup-header-title').innerText = `Select ${type.charAt(0).toUpperCase() + type.slice(1)} Date`;
     
     // Store the current type (start or end) so we know which field to update
     window.currentPopupType = type;
@@ -97,19 +97,14 @@ function closePopup() {
 // Function to select the date and time from the popup and update the relevant field
 function selectDateTime() {
     const selectedDate = document.getElementById('popup-date').value;
-    const selectedTime = document.getElementById('popup-time').value;
 
-    if (selectedDate && selectedTime) {
-        // Format the selected date and time to display as "MM/DD/YYYY 10:00 AM"
-        const formattedDateTime = formatDateTime(selectedDate, selectedTime);
-
+    if (selectedDate) {
+        // selectedDate is already in YYYY-MM-DD format from the date input
         // Update the correct field based on the type (start or end)
         if (window.currentPopupType === 'start') {
-            document.getElementById('start-date').value = formattedDateTime;
-            document.getElementById('start-time').value = selectedTime;
+            document.getElementById('start-date').value = selectedDate; // Keep YYYY-MM-DD
         } else if (window.currentPopupType === 'end') {
-            document.getElementById('end-date').value = formattedDateTime;
-            document.getElementById('end-time').value = selectedTime;
+            document.getElementById('end-date').value = selectedDate; // Keep YYYY-MM-DD
         }
     }
 
@@ -117,12 +112,11 @@ function selectDateTime() {
 }
 
 // Helper function to format the date and time
-function formatDateTime(date, time) {
+function formatDate(date) {
     const dateObj = new Date(date);
-    const hours = parseInt(time.split(':')[0]);
-    const minutes = time.split(':')[1];
-    const ampm = hours >= 12 ? ' PM' : ' AM';
-
-    const formattedDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}/${dateObj.getFullYear()} ${hours % 12}:${minutes} ${ampm}`;
-    return formattedDate;
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
+    const year = dateObj.getFullYear();
+    
+    return `${month}/${day}/${year}`;
 }

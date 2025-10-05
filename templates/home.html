@@ -34,15 +34,13 @@
         <div class="date-time-field start-field">
             <label for="start-date" class="input-label">From</label>
             <div class="date-time-container">
-                <input type="text" id="start-date" value="Start Date" class="form-input date-input" name="start_date" readonly onclick="showDateTimePopup('start')">
-                <input type="text" id="start-time" class="form-input time-input" name="start_time" readonly onclick="showDateTimePopup('start')">
+                <input type="date" id="start-date" class="form-input date-input" name="start_date">
             </div>
         </div>
         <div class="date-time-field end-field">
             <label for="end-date" class="input-label">Until</label>
             <div class="date-time-container">
-                <input type="text" id="end-date" value="End Date" class="form-input date-input" name="end_date" readonly onclick="showDateTimePopup('end')">
-                <input type="text" id="end-time" class="form-input time-input" name="end_time" readonly onclick="showDateTimePopup('end')">
+                <input type="date" id="end-date" class="form-input date-input" name="end_date">
             </div>
         </div>
     </div>
@@ -63,13 +61,6 @@
         </div>
         <div class="popup-body">
             <input type="date" id="popup-date" class="popup-date-input">
-            <select id="popup-time" class="popup-time-select">
-                <option value="" disabled selected>Select time</option>
-                <option value="10:00">10:00 AM</option>
-                <option value="11:00">11:00 AM</option>
-                <option value="17:00">5:00 PM</option>
-                <option value="18:00">6:00 PM</option>
-            </select>
         </div>
         <div class="popup-footer">
             <button class="popup-btn" onclick="selectDateTime()">Select</button>

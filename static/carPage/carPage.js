@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 	// Object to store the selected filters
-
+let currentCarId = null;
 
 	// Quick view modal functionality
 	const modal = document.querySelector(".quick-view-modal");
@@ -51,7 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	// Add to cart functionality
-	const addToCartButtons = document.querySelectorAll(".add-to-cart");
+	document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function() {
+        const card = this.closest('.product-card');
+        const carId = card.dataset.carId; // You'll need to add this data attribute
+        
+        window.location.href = `/select-car/${carId}`;
+    });
+});
 	const notification = document.querySelector(".notification");
 
 	function showNotification(message) {
@@ -102,28 +109,49 @@ const modalTitle = document.getElementById('modal-title');
 const modalDetails = document.getElementById('modal-details');
 const modalPrice = document.getElementById('modal-price');
 const modalImage = document.getElementById("modal-image");
+const continuePaymentBtn = document.getElementById('continue-payment-btn');
 
 // 1. Loop through ALL product cards and attach the click listener
 productCards.forEach(card => {
-  card.addEventListener('click', function() {
+  card.addEventListener('click', function(e) {
+    // Don't open modal if clicking the "View Car" button directly
+    if (e.target.classList.contains('add-to-cart')) {
+      return;
+    }
+
     // 2. Extract data from the clicked card's data attributes
     const model = this.getAttribute('data-model');
     const price = this.getAttribute('data-price');
     const details = this.getAttribute('data-details');
     const imageUrl = this.getAttribute('data-image');
+    currentCarId = this.getAttribute('data-car-id'); // Store the car ID
 
     // 3. Populate the single modal with the extracted data
     modalTitle.textContent = model;
     modalDetails.textContent = details;
-    modalPrice.textContent = `Price: ${price}`;
+    modalPrice.textContent = `Price: $${price}/day`;
     modalImage.src = imageUrl;
 
     // 4. Show the modal
     productModal.style.display = 'block';
   });
 });
+//Hnadle "View Car" button clicks to go directly to selection
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent the card click event
+        const card = this.closest('.product-card');
+        const carId = card.getAttribute('data-car-id');
+        
+        if (carId) {
+            window.location.href = `/select-car/${carId}`;
+        } else {
+            console.error('Car ID not found!');
+        }
+    });
+});
 
-// The closing logic from your original code remains mostly the same:
+// Closing logic
 document.querySelector('.close-btn').addEventListener('click', function() {
   productModal.style.display = 'none';
 });
@@ -134,10 +162,15 @@ window.onclick = function(event) {
   }
 };
 
-const continuePaymentBtn = document.getElementById('continue-payment-btn');
-continuePaymentBtn.onclick = function() {
-            window.location.href = "/pay"; // Redirect to the /payment route (payment.html)
-        }
+
+continuePaymentBtn.addEventListener('click', function() {
+    if (currentCarId) {
+        window.location.href = `/select-car/${currentCarId}`;
+    } else {
+        console.error('No car selected!');
+        alert('Please select a car first');
+    }
+});
 
 
 // Object to store the selected filters

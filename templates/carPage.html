@@ -125,8 +125,9 @@
 			<!-- Below this is my SQL integration (or at least i hope lol -adam)-->
 
 			{% for car in cars %}
-			<div class="product-card" data-model="{{ car.model }}" data-price="${{ car.price }}/day"
-				data-details="{{ car.details }}" data-image="{{ car.image }}">
+			<div class="product-card" data-model="{{ car.model }}" data-price="{{ car.price }}"
+				data-details="{{ car.details }}" data-image="{{ car.image }}" data-vehicle-type="{{ car.vehicle_type }}"
+				data-passengers="{{ car.passengers }}" data-doors="{{ car.doors }}" data-car-id="{{ car.id }}">
 
 				<div class="product-image">
 					<img src="{{ car.image }}" alt="{{ car.model }}">

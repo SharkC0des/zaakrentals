@@ -70,7 +70,7 @@ with app.app_context():
             vehicle_type="SUV",
             passengers=5,
             doors=4,
-            location="RI"
+            location="NY"
         )
 
         db.session.add(car1)

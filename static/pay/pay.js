@@ -24,8 +24,8 @@ let selectedCard = '1';
 let property = null;
 const mockProperty = {
     id: '1',
-    title: 'Rental Purchase',
-    location: 'Earth',
+    title: 'Luxury Downtown Apartment',
+    location: 'Manhattan, NY',
     tokenPrice: 1250,
     image: 'https://via.placeholder.com/300x200'
 };
@@ -109,46 +109,12 @@ document.getElementById('card').addEventListener('input', function(e) {
     let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
     e.target.value = formattedValue;
 });
+
 // Expiry date formatting
 document.getElementById('exp').addEventListener('input', function(e) {
     let value = e.target.value.replace(/\D/g, '');
     if (value.length >= 2) {
-    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
     }
     e.target.value = value;
 });
-document.getElementById('checkoutBtn').addEventListener('click', async function() {
-    const btn = this;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<div class="spinner"></div>Processing Payment...';
-    btn.disabled = true;
-    document.querySelector('.checkout-container').classList.add('loading');
-    try {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const USER_ID = "192831283128312";
-    const paymentData = {
-        propertyId: property.id,
-        tokens: qty,
-        paymentMethod: selectedPaymentMethod,
-        selectedCard: selectedCard,
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value
-    };
-    document.getElementById('checkoutForm').style.display = 'none';
-    document.querySelector('.payment-methods').style.display = 'none';
-    btn.style.display = 'none';
-    document.getElementById('checkoutSuccess').style.display = 'block';
-    setTimeout(() => {
-        window.location.href = "/search-results";
-    }, 3000);
-    } catch (error) {
-    alert("Payment failed. Please try again.");
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-    document.querySelector('.checkout-container').classList.remove('loading');
-    }
-});
-// Initialize
-loadProperty();
-updateProgress();

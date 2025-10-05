@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout </title>
   <link href="../static/pay/pay.css" rel="stylesheet">
-  
-  
+
+
 </head>
 
 <body>
@@ -115,48 +115,34 @@
       </div>
     </div>
 
-    <form class="checkout-form" id="checkoutForm">
-      <div class="form-group">
+    <form class="checkout-form" id="checkoutForm" action="/process_payment" method="POST">
+    <input type="hidden" name="car_id" value="{{ car.id }}">
+    <input type="hidden" name="start_date" value="{{ rental_dates.start_date }}">
+    <input type="hidden" name="end_date" value="{{ rental_dates.end_date }}">
+
+    <div class="form-group">
         <label for="name">Full Name</label>
-        <input type="text" id="name" required>
-      </div>
+        <input type="text" id="name" name="name" value="{{ user_data.name if user_data else '' }}" required>
+    </div>
 
-      <div class="form-group">
+    <div class="form-group">
         <label for="email">Email Address</label>
-        <input type="email" id="email" required>
-      </div>
+        <input type="email" id="email" name="email" value="{{ user_data.email if user_data else '' }}" required>
+    </div>
 
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" required>
-      </div>
-
-      <div class="form-group">
-        <label for="card">Card Number</label>
-        <input type="text" id="card" maxlength="19" placeholder="1234 5678 9012 3456" required>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="exp">Expiry Date</label>
-          <input type="text" id="exp" maxlength="5" placeholder="MM/YY" required>
-        </div>
-
-        <div class="form-group">
-          <label for="cvc">CVC</label>
-          <input type="text" id="cvc" maxlength="4" placeholder="123" required>
-        </div>
-      </div>
-
-      <div class="security-badge">
+    <div class="security-badge">
         <i class="fas fa-shield-alt"></i>
-        <span>Secured with 256-bit SSL encryption</span>
-      </div>
-    </form>
+        <span>This is a demo - no real payment required</span>
+    </div>
 
-    <button class="checkout-btn" type="button" id="checkoutBtn">
-      <i class="fas fa-lock"></i> Complete Secure Payment
+    <button class="checkout-btn" type="submit" id="checkoutBtn">
+        <i class="fas fa-lock"></i> Complete Booking
     </button>
+</form>
+
+    <!-- Remove the button from here -->
+
+
 
     <div class="checkout-success" id="checkoutSuccess" style="display:none;">
       <i class="fas fa-check-circle"></i>
