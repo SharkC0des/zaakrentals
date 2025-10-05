@@ -105,7 +105,8 @@ h1 {
 	grid-template-columns: repeat(2, 1fr);
 	gap: 12vh;
 	height: 100%;
-    margin-left: 8vh;
+	margin-left: 8vh;
+	padding: 0 40px; /* This adds 40px on both left and right */
 }
 
 .product-card {
@@ -525,31 +526,3 @@ h1 {
   background-color: #45a049;
 }
 
-
-/* CSS for selected button */
-button.selected {
-  background-color: #4CAF50; /* Green for selected */
-  color: white;
-}
-
-/* Style for filter buttons */
-button {
-  padding: 10px 20px;
-  margin: 5px;
-  background-color: #f1f1f1; /* Default background */
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* Hover effect for buttons */
-button:hover {
-  background-color: #ddd;
-}
-
-/* Style for selected button */
-button.selected {
-  background-color: #4CAF50; /* Green */
-  color: white;
-}

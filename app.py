@@ -1,9 +1,10 @@
-from flask import Flask, render_template,redirect,request, session, url_for
+from flask import Flask, render_template,redirect,request, session, url_for, flash
 import logging
 from flask_session import Session
-from flask_sqlalchemy import SQLAlchemy
 from objects import Car, Booking, User
 from datetime import datetime
+from database import db
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -11,8 +12,13 @@ app = Flask(__name__)
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///car_rental.db'  # Use PostgreSQL later if needed
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'secret-key'
 
-db = SQLAlchemy(app)
+db.init_app(app)
+
+#db = SQLAlchemy(app)
+#i moved the db creation to database.py
+
 # End of sql alchemy import
 
 app.config["SESSION_PERMANENT"] = False
@@ -20,33 +26,126 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app) 
 # "Home"
 
+# CARS DATABASE
+@app.route("/cars")
+def car_page():
+    cars = Car.query.all()
+    print(f"Found {len(cars)} cars")  # Debug line
+    for car in cars:
+        print(f"Car: {car.model}, Price: {car.price}")  # Debug line
+    return render_template("carPage.html", cars=cars)
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash("Please log in to access this page", "warning")
+            return redirect(url_for('login', next=request.url))
+        
+        user = User.query.get(session['user_id'])
+        if not user or not user.is_admin:
+            flash("Admin access required", "error")
+            return redirect("/")
+        
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    cars = Car.query.all()
+    users = User.query.all()
+    bookings = Booking.query.all()
+    return render_template("adminDashboard.html", 
+                         cars=cars, 
+                         users=users, 
+                         bookings=bookings)
+
+@app.route("/admin/add-car", methods=["GET", "POST"])
+def admin_add_car():
+    if request.method == "POST":
+        # Get form data
+        model = request.form.get("model")
+        price = request.form.get("price")
+        details = request.form.get("details")
+        image = request.form.get("image")
+        vehicle_type = request.form.get("vehicle_type")
+        passengers = request.form.get("passengers")
+        doors = request.form.get("doors")
+
+        # Validate required fields
+        if not all([model, price, image, vehicle_type, passengers, doors]):
+            flash("Please fill in all required fields", "error")
+            return render_template("addCar.html")
+
+        try:
+            # Create new car
+            new_car = Car(
+                model=model,
+                price=int(price),
+                details=details,
+                image=image,
+                vehicle_type=vehicle_type,
+                passengers=int(passengers),
+                doors=int(doors)
+            )
+
+            db.session.add(new_car)
+            db.session.commit()
+
+            flash(f"Successfully added {model} to inventory!", "success")
+            return redirect(url_for("car_page"))
+
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error adding car: {str(e)}", "error")
+            return render_template("addCar.html")
+
+    return render_template("addCar.html")
+
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        
         location = request.form.get('location_name')
         start_date = request.form.get('start_date')
         start_time = request.form.get('start_time')
         end_date = request.form.get('end_date')
         end_time = request.form.get('end_time')
+
+        # DETAILED DEBUG
+        print(f"\n{'='*50}")
+        print(f"SEARCH REQUEST:")
+        print(f"  Location input: '{location}'")
+        print(f"  Location type: {type(location)}")
+        print(f"  Location length: {len(location) if location else 0}")
+        print(f"{'='*50}")
         
-        return redirect(url_for('search_results', 
-                                location_name=location,
-                                start_date=start_date,
-                                start_time=start_time,
-                                end_date=end_date,
-                                end_time=end_time))
+        # Show all cars and their locations
+        all_cars = Car.query.all()
+        print(f"\nALL CARS IN DATABASE ({len(all_cars)}):")
+        for car in all_cars:
+            print(f"  - {car.model}: location='{car.location}'")
+        
+        # Perform the search
+        if location and location.strip():
+            validCars = Car.query.filter(Car.location.ilike(f'%{location}%')).all()
+            print(f"\nSEARCH RESULTS:")
+            print(f"  Query: Car.location.ilike('%{location}%')")
+            print(f"  Found {len(validCars)} cars")
+            for car in validCars:
+                print(f"    ✓ {car.model} (location: {car.location})")
+        else:
+            validCars = Car.query.all()
+            print(f"\nNo location specified, showing all {len(validCars)} cars")
+        
+        print(f"{'='*50}\n")
+        
+        return render_template('carPage.html', cars=validCars)
+    
     return render_template("home.html", name=session.get("name"))
 
-@app.route('/search-results')
-def search_results():
-    location_name = request.args.get('location_name')
-    start_date = request.args.get('start_date')
-    start_time = request.args.get('start_time')
-    end_date = request.args.get('end_date')
-    end_time = request.args.get('end_time')
-
-    return render_template('carPage.html')
 
 @app.route("/pay")
 def pay():
@@ -87,26 +186,44 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def login():
     # Handle GET and POST requests
     if request.method == "POST":
-        name = request.form.get("name")
-        password = request.form.get("password")  # You can add password validation logic here
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-        if name:  
-            session['name'] = name
-            app.logger.info(f"Login successful for user: {name}")
+        #throw error if user doesnt input either box
+        if not email or not password:
+            flash("Email and password are required to login", "error")
+            return redirect("/")
+        
+        user = User.query.filter_by(email=email).first()
 
-            # Check if 'next' is provided (the URL the user was trying to access before logging in)
-            next_page = request.args.get('next')
-            if next_page:
-                return redirect(next_page)  # Redirect to the original page
-            else:
-                return redirect("/")  # Default redirection to home page
+        if user and user.check_password(password):
+            #this is a successful login yippee
+            app.logger.info(f"Login successful for user: {email}")\
+            
+            #still figuring out what session does lol give me a min
+            session['user_id'] = user.id
+            session['name'] = user.name
+            session['email'] = user.email
+            session['is_admin'] = user.is_admin
+
+            #bring admin to the admin dash
+            if user.is_admin:
+                flash(f"Welcom back Admin!", "success")
+                return redirect("/admin")
+
+            #send normies back to the home page
+            else: 
+                return redirect("/")
 
         else:
-            app.logger.warning("Login failed: Name not provided.")
-            return "Login failed. Please try again.", 400
+            #unsucessful
+            flash("Invalid email or password", "error")
+            app.logger.warning(f"Failed login attempt for email: {email}")
+            return redirect("/")
+
 
     # If it's a GET request, render the login page
-    return render_template("/")  # Home page with login form
+    return redirect("/")
 
 @app.route("/logout")
 def logout():
