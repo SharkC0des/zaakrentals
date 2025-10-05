@@ -62,7 +62,48 @@ def admin_dashboard():
                          users=users, 
                          bookings=bookings)
 
+@app.route("/admin/delete-car/<int:car_id>", methods=["POST"])
+@admin_required
+def admin_delete_car(car_id):
+    try:
+        car = Car.query.get_or_404(car_id)
+        car_model = car.model  # Store for flash message
+        
+        # Check if there are any active bookings for this car
+        active_bookings = Booking.query.filter_by(car_id=car_id).count()
+        
+        if active_bookings > 0:
+            flash(f"Cannot delete {car_model} - it has {active_bookings} active booking(s)", "error")
+            return redirect(url_for('admin_dashboard'))
+        
+        db.session.delete(car)
+        db.session.commit()
+        
+        flash(f"Successfully deleted {car_model}", "success")
+        return redirect(url_for('admin_dashboard'))
+        
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error deleting car: {str(e)}", "error")
+        return redirect(url_for('admin_dashboard'))
+
+@app.route("/admin/clear-booking", methods=["GET", "POST"])
+@admin_required
+def admin_clear_booking():
+    try:
+        # Delete all bookings from the table
+        Booking.query.delete()
+        db.session.commit()
+        flash("All bookings cleared successfully!", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error clearing bookings: {str(e)}", "error")
+    
+    return redirect("/admin")
+
+
 @app.route("/admin/add-car", methods=["GET", "POST"])
+@admin_required
 def admin_add_car():
     if request.method == "POST":
         # Get form data
@@ -73,6 +114,7 @@ def admin_add_car():
         vehicle_type = request.form.get("vehicle_type")
         passengers = request.form.get("passengers")
         doors = request.form.get("doors")
+        location = request.form.get("location")
 
         # Validate required fields
         if not all([model, price, image, vehicle_type, passengers, doors]):
@@ -88,7 +130,8 @@ def admin_add_car():
                 image=image,
                 vehicle_type=vehicle_type,
                 passengers=int(passengers),
-                doors=int(doors)
+                doors=int(doors),
+                location=location
             )
 
             db.session.add(new_car)
@@ -108,11 +151,26 @@ def admin_add_car():
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        # Debug: Print all form data
+        print("\n=== FORM DATA RECEIVED ===")
+        print(f"All form data: {request.form}")
+        print(f"All form keys: {list(request.form.keys())}")
+        print("=" * 50)
+        
         location = request.form.get('location_name')
         start_date = request.form.get('start_date')
-        start_time = request.form.get('start_time')
         end_date = request.form.get('end_date')
-        end_time = request.form.get('end_time')
+        
+        # Debug: Print what we extracted
+        print(f"location: '{location}'")
+        print(f"start_date: '{start_date}'")
+        print(f"end_date: '{end_date}'")
+        
+        # Store the rental dates in session for later use (only if they exist)
+        session['rental_dates'] = {
+            'start_date': start_date if start_date else None,
+            'end_date': end_date if end_date else None
+        }
 
         # DETAILED DEBUG
         print(f"\n{'='*50}")
@@ -140,6 +198,31 @@ def index():
             validCars = Car.query.all()
             print(f"\nNo location specified, showing all {len(validCars)} cars")
         
+        # Filter out cars that are already booked during the requested period
+        if start_date and end_date:
+            try:
+                start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+                end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
+                
+                # Get all car IDs that are booked during this period
+                booked_car_ids = db.session.query(Booking.car_id).filter(
+                    Booking.start_date <= end_datetime,
+                    Booking.end_date >= start_datetime
+                ).all()
+                
+                # Extract just the IDs from the result
+                booked_car_ids = [car_id[0] for car_id in booked_car_ids]
+                
+                # Filter out booked cars
+                validCars = [car for car in validCars if car.id not in booked_car_ids]
+                
+                print(f"\nBooking Filter Applied:")
+                print(f"  Date range: {start_date} to {end_date}")
+                print(f"  Booked car IDs: {booked_car_ids}")
+                print(f"  Available cars: {len(validCars)}")
+            except ValueError as e:
+                print(f"Error parsing dates: {e}")
+        
         print(f"{'='*50}\n")
         
         return render_template('carPage.html', cars=validCars)
@@ -149,7 +232,39 @@ def index():
 
 @app.route("/pay")
 def pay():
-    return render_template("pay.html")
+    if 'selected_car_id' not in session:
+        flash("Please select a car first", "error")
+        return redirect(url_for('car_page'))
+    
+    car = Car.query.get_or_404(session['selected_car_id'])
+    rental_dates = session.get('rental_dates', {})
+
+    user_data = None
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user:
+            user_data = {
+                'name': user.name,
+                'email': user.email
+            }
+
+    return render_template("pay.html", car=car, rental_dates=rental_dates, user_data=user_data)
+
+
+@app.route("/select-car/<int:car_id>")
+def select_car(car_id):
+    car = Car.query.get_or_404(car_id)
+    session['selected_car_id'] = car_id
+    session['selected_car'] = {
+        'model': car.model,
+        'price': car.price,
+        'image': car.image,
+        'details': car.details,
+        'vehicle_type': car.vehicle_type,
+        'passengers': car.passengers,
+        'doors': car.doors
+    }
+    return redirect(url_for('pay'))
 
 # Payment Portal
 @app.route("/process_payment", methods=["POST"])
@@ -178,7 +293,7 @@ def process_payment():
     db.session.add(booking)
     db.session.commit()
 
-    return redirect(url_for("home"))
+    return redirect("/")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

@@ -62,26 +62,8 @@ registerFormSubmit.addEventListener('submit', (e) => {
   alert('Registration successful!');
   authModal.style.display = 'none';
 });
-/*
-// Handle login form submission
-loginFormSubmit.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const username = document.getElementById('login-username').value;
-  const password = document.getElementById('login-password').value;
 
-  const user = usersDB.find(user => user.username === username && user.password === password);
 
-  if (user) {
-    // Save logged-in user to localStorage
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-    alert('Login successful!');
-    updateUI();
-    authModal.style.display = 'none';
-  } else {
-    alert('Invalid username or password!');
-  }
-});
-*/
 // Update UI to show username and dropdown after login
 function updateUI() {
   const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));

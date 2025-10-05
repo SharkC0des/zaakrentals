@@ -171,6 +171,8 @@
         <a href="/admin/add-car" class="add-car-btn">➕ Add New Car</a>
     </div>
 
+    
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -250,8 +252,15 @@
 
     <!-- Bookings Section -->
     <div class="section-divider">
-        <h2>📋 Recent Bookings</h2>
-    </div>
+    <h2>📋 Recent Bookings</h2>
+    <form method="POST" action="/admin/clear-booking" style="display:inline; float:right;">
+        <button type="submit" 
+                onclick="return confirm('Are you sure you want to delete ALL bookings? This cannot be undone!')"
+                style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Clear All Bookings
+        </button>
+    </form>
+</div>
 
     <div class="bookings-table-container">
         <table class="admin-table">

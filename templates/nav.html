@@ -21,9 +21,6 @@
 
     <!-- NAV LINKS (for desktop) -->
     <ul class="nav-links">
-      <li><a href="#">Services</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
       
       {% if session.get('user_id') %}
         <!-- Show username dropdown if logged in -->
@@ -33,7 +30,6 @@
             {% if session.get('is_admin') %}
               <a href="/admin">Admin Dashboard</a>
             {% endif %}
-            <a href="#" id="view-profile">View Profile</a>
             <a href="/logout" id="logout">Log Out</a>
           </div>
         </li>

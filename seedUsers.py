@@ -29,9 +29,9 @@ with app.app_context():
         ado.set_password("adonyarko")
 
         katie = User(
-            name = "Adam Knell",
+            name = "Katie Matulac",
             email = "kfmatula@syr.edu",
-            is_admin = True,
+            is_admin = False,
         )
         katie.set_password("katiematulac")
 
