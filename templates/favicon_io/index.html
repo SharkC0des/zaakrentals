@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>ZAAK</title>
+		<link rel="stylesheet" type="text/css" target="_blank" href="/static/style.css" />
+	</head>
+	<body>
+		<div class="nav">{% include "nav.html" %}</div>
+		<section class="search_home">
+			<h1 id="toptext">Your Journey Starts Here</h1>
+			<form class="rental-search-form" autocomplete="off" method="POST" action="/">
+				<div id="" class="input-group location-group">
+					<label for="location-input" class="input-label">Where</label>
+					<div class="input-container">
+						<input
+							type="text"
+							id="location-input"
+							placeholder="City, address, or airport"
+							class="form-input text-input" />
+						<ul id="suggestions" class="suggestions-list"></ul>
+					</div>
+				</div>
+				<input type="hidden" id="selected-location-value" name="location_id" />
+
+				<div class="form-group date-time-group">
+					<div class="date-time-field start-field">
+						<label for="start-date" class="input-label">From</label>
+						<div class="date-time-container">
+							<input
+								type="text"
+								id="start-date"
+								value="Start Date"
+								class="form-input date-input"
+								name="start_date"
+								readonly
+								onclick="showDateTimePopup('start')" />
+							<input
+								type="text"
+								id="start-time"
+								class="form-input time-input"
+								name="start_time"
+								readonly
+								onclick="showDateTimePopup('start')" />
+						</div>
+					</div>
+					<div class="date-time-field end-field">
+						<label for="end-date" class="input-label">Until</label>
+						<div class="date-time-container">
+							<input
+								type="text"
+								id="end-date"
+								value="End Date"
+								class="form-input date-input"
+								name="end_date"
+								readonly
+								onclick="showDateTimePopup('end')" />
+							<input
+								type="text"
+								id="end-time"
+								class="form-input time-input"
+								name="end_time"
+								readonly
+								onclick="showDateTimePopup('end')" />
+						</div>
+					</div>
+				</div>
+
+				<button type="submit" class="search-button">
+					<svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24"></svg>
+					<span>Search</span>
+				</button>
+			</form>
+
+			<div id="date-time-popup" class="popup-modal">
+				<div class="popup-content">
+					<div class="popup-header">
+						<span id="popup-header-title">Select Date and Time</span>
+						<button class="close-popup" onclick="closePopup()">X</button>
+					</div>
+					<div class="popup-body">
+						<input type="date" id="popup-date" class="popup-date-input" />
+						<select id="popup-time" class="popup-time-select">
+							<option value="" disabled selected>Select time</option>
+							<option value="10:00">10:00 AM</option>
+							<option value="11:00">11:00 AM</option>
+							<option value="17:00">5:00 PM</option>
+							<option value="18:00">6:00 PM</option>
+						</select>
+					</div>
+					<div class="popup-footer">
+						<button class="popup-btn" onclick="selectDateTime()">Select</button>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="footer">{% include "footer.html" %}</div>
+
+		<script src="/static/app.js"></script>
+		<script src="/static/login.js"></script>
+	</body>
+</html>

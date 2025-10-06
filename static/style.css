@@ -910,3 +910,197 @@ form input:focus {
 }
 
 
+
+
+/* static/style.css */
+
+/* --- General Container Styling (if not already present) --- */
+/* This will center content and give it a max width */
+.container {
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto; /* Centers the container */
+    padding: 0 20px; /* Adds some padding on the sides */
+}
+
+/* --- How It Works Section Styling --- */
+.how-it-works-section {
+    background-color: #f8f8f8; /* Light background for contrast */
+    padding: 60px 0; /* Vertical padding for the section */
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 150px; /* Center align text within the section */
+}
+
+.how-it-works-section h2 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 40px; /* Space below the main heading */
+    font-weight: 700;
+}
+
+/* --- Steps Grid Styling --- */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid columns */
+    gap: 30px; /* Space between grid items */
+    margin-top: 30px;
+}
+
+/* --- Individual Step Card Styling --- */
+.step-card {
+    background-color: #ffffff; /* White background for cards */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+    display: flex; /* Use flexbox for internal layout (icon above text) */
+    flex-direction: column;
+    align-items: center; /* Center items horizontally within the card */
+    text-align: center;
+}
+
+.step-card:hover {
+    transform: translateY(-5px); /* Lift card on hover */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* Slightly stronger shadow on hover */
+}
+
+.step-icon {
+    font-size: 3em; /* Larger icon size */
+    margin-bottom: 20px; /* Space below the icon */
+    color: #007bff; /* A primary color for the icon */
+    /* Optional: Add a circular background to the icon */
+    background-color: #e6f2ff; /* Light blue background */
+    border-radius: 50%;
+    padding: 15px;
+    width: 80px; /* Fixed width/height for circular background */
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.step-card h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.step-card p {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* --- Responsive Adjustments (Optional but Recommended) --- */
+@media (max-width: 768px) {
+    .how-it-works-section h2 {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically on smaller screens */
+    }
+
+    .step-card {
+        padding: 25px;
+    }
+
+    .step-icon {
+        font-size: 2.5em;
+        width: 70px;
+        height: 70px;
+        padding: 10px;
+    }
+
+    .step-card h3 {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .how-it-works-section {
+        padding: 40px 0;
+    }
+    .how-it-works-section h2 {
+        font-size: 1.8em;
+    }
+    .container {
+        padding: 0 15px;
+    }
+}
+
+.featured-destinations {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    max-width: 1200px;
+    margin: 2rem auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.featured-destinations h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #3b9b00;
+}
+
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.destination-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.destination-card:hover {
+    transform: translateY(-5px);
+}
+
+.destination-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.destination-info {
+    padding: 1rem;
+    text-align: center;
+}
+
+.destination-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.destination-info p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.explore-btn {
+    background-color: #3b9b00;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.explore-btn:hover {
+    background-color: #3b9b00;
+}
+
+

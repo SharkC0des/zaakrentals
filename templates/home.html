@@ -4,77 +4,121 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Responsive Navbar</title>
+		<title>ZAAK</title>
 		<link rel="stylesheet" type="text/css" target="_blank" href="/static/style.css" />
 	</head>
 	<body>
-      
-<div class="nav">
-    {% include "nav.html" %}
-</div>
-	<section class="search_home">
-        <h1 id="toptext">Your Journey Starts Here</h1>
-<form class="rental-search-form" autocomplete="off" method="POST" action="/">
-    <div id="" class="input-group location-group">
-        <label for="location-input" class="input-label">Where</label>
-        <div class="input-container">
-            <input 
-                type="text" 
-                id="location-input" 
-                placeholder="State (eg. NY)" 
-                class="form-input text-input"
-                name="location_name"
-            >
-        </div>
-    </div>
-    <input type="hidden" id="selected-location-value" name="location_id">
+		<div class="nav">{% include "nav.html" %}</div>
+		<section class="search_home">
+			<h1 id="toptext">Your Journey Starts Here</h1>
+			<form class="rental-search-form" autocomplete="off" method="POST" action="/">
+				<div id="" class="input-group location-group">
+					<label for="location-input" class="input-label">Where</label>
+					<div class="input-container">
+						<input
+							type="text"
+							id="location-input"
+							placeholder="State (eg. NY)"
+							class="form-input text-input"
+							name="location_name" />
+					</div>
+				</div>
+				<input type="hidden" id="selected-location-value" name="location_id" />
 
-    
-    <div class="form-group date-time-group">
-        <div class="date-time-field start-field">
-            <label for="start-date" class="input-label">From</label>
-            <div class="date-time-container">
-                <input type="date" id="start-date" class="form-input date-input" name="start_date">
-            </div>
-        </div>
-        <div class="date-time-field end-field">
-            <label for="end-date" class="input-label">Until</label>
-            <div class="date-time-container">
-                <input type="date" id="end-date" class="form-input date-input" name="end_date">
-            </div>
-        </div>
-    </div>
-    
-    
-    <button type="submit" class="search-button">
-        <svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24">
-        </svg>
-        <span>Search</span>
-    </button>
-</form>
+				<div class="form-group date-time-group">
+					<div class="date-time-field start-field">
+						<label for="start-date" class="input-label">From</label>
+						<div class="date-time-container">
+							<input type="date" id="start-date" class="form-input date-input" name="start_date" />
+						</div>
+					</div>
+					<div class="date-time-field end-field">
+						<label for="end-date" class="input-label">Until</label>
+						<div class="date-time-container">
+							<input type="date" id="end-date" class="form-input date-input" name="end_date" />
+						</div>
+					</div>
+				</div>
 
-<div id="date-time-popup" class="popup-modal">
-    <div class="popup-content">
-        <div class="popup-header">
-            <span id="popup-header-title">Select Date and Time</span>
-            <button class="close-popup" onclick="closePopup()">X</button>
-        </div>
-        <div class="popup-body">
-            <input type="date" id="popup-date" class="popup-date-input">
-        </div>
-        <div class="popup-footer">
-            <button class="popup-btn" onclick="selectDateTime()">Select</button>
-        </div>
-    </div>
-</div>
-</section>	
-    <div class="footer">
-        {% include "footer.html" %}
-    </div>
+				<button type="submit" class="search-button">
+					<svg fill="currentColor" height="24" viewBox="0 0 24 24" width="24"></svg>
+					<span>Search</span>
+				</button>
+			</form>
+
+			<div id="date-time-popup" class="popup-modal">
+				<div class="popup-content">
+					<div class="popup-header">
+						<span id="popup-header-title">Select Date and Time</span>
+						<button class="close-popup" onclick="closePopup()">X</button>
+					</div>
+					<div class="popup-body">
+						<input type="date" id="popup-date" class="popup-date-input" />
+					</div>
+					<div class="popup-footer">
+						<button class="popup-btn" onclick="selectDateTime()">Select</button>
+					</div>
+				</div>
+			</div>
+		</section>
+        <section class="featured-destinations">
+			<h2>Featured Destinations</h2>
+			<div class="destinations-grid">
+				<div class="destination-card">
+					<img src="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG5ldyUyMHlvcmt8ZW58MHx8MHx8fDA%3D" alt="New York" class="destination-image" />
+					<div class="destination-info">
+						<h3>New York (NY)</h3>
+						<p>Explore the bustling streets of the Big Apple with our premium rentals.</p>
+						<button class="explore-btn">Explore</button>
+					</div>
+				</div>
+				<div class="destination-card">
+					<img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FsaWZvcm5pYXxlbnwwfHwwfHx8MA%3D%3D" alt="California" class="destination-image" />
+					<div class="destination-info">
+						<h3>California (CA)</h3>
+						<p>Enjoy sunny beaches and scenic drives in the Golden State.</p>
+						<button class="explore-btn">Explore</button>
+					</div>
+				</div>
+				<div class="destination-card">
+					<img src="https://images.unsplash.com/photo-1711754056737-9d8e6d02744e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGZsb3JpZGF8ZW58MHx8MHx8fDA%3D" alt="Florida" class="destination-image" />
+					<div class="destination-info">
+						<h3>Florida (FL)</h3>
+						<p>Relax in tropical paradises with easy access to theme parks.</p>
+						<button class="explore-btn">Explore</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- NEW SECTION STARTS HERE -->
+		<section class="how-it-works-section">
+			<div class="container">
+				<h2>How ZAAK Works</h2>
+				<div class="steps-grid">
+					<div class="step-card">
+						<div class="step-icon">🔍</div>
+						<h3>1. Search & Discover</h3>
+						<p>Effortlessly find the perfect rental by browsing our extensive listings or using our powerful search filters.</p>
+					</div>
+					<div class="step-card">
+						<div class="step-icon">📆</div>
+						<h3>2. Book Your Rental</h3>
+						<p>Choose your desired dates, confirm availability, and securely book your item or property with ease.</p>
+					</div>
+					<div class="step-card">
+						<div class="step-icon">✅</div>
+						<h3>3. Enjoy & Return</h3>
+						<p>Pick up your rental, enjoy your experience, and return it hassle-free according to the terms.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+
+		<div class="footer">{% include "footer.html" %}</div>
 
 		<script src="/static/app.js"></script>
-        <script src="/static/login.js"></script>
-
-        
+		<script src="/static/login.js"></script>
 	</body>
 </html>
